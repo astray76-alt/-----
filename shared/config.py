@@ -8,9 +8,9 @@ load_dotenv()
 class Config:
     """프로젝트 전역 설정 관리 클래스"""
 
-    # Claude API 설정
-    ANTHROPIC_API_KEY: str = os.getenv("ANTHROPIC_API_KEY", "")
-    CLAUDE_MODEL: str = os.getenv("CLAUDE_MODEL", "claude-opus-4-6")
+    # OpenAI API 설정
+    OPENAI_API_KEY: str = os.getenv("OPENAI_API_KEY", "")
+    OPENAI_MODEL: str = os.getenv("OPENAI_MODEL", "gpt-5.4")
 
     # Brave Search 설정
     BRAVE_API_KEY: str = os.getenv("BRAVE_API_KEY", "")
@@ -30,8 +30,8 @@ class Config:
         """필수 환경변수 검증"""
         missing = []
 
-        if not cls.ANTHROPIC_API_KEY:
-            missing.append("ANTHROPIC_API_KEY")
+        if not cls.OPENAI_API_KEY:
+            missing.append("OPENAI_API_KEY")
         if not cls.BRAVE_API_KEY:
             missing.append("BRAVE_API_KEY")
         if not cls.GEMINI_API_KEY:

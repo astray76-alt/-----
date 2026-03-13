@@ -12,8 +12,9 @@ class Config:
     ANTHROPIC_API_KEY: str = os.getenv("ANTHROPIC_API_KEY", "")
     CLAUDE_MODEL: str = os.getenv("CLAUDE_MODEL", "claude-opus-4-6")
 
-    # Tavily 웹서치 설정
-    TAVILY_API_KEY: str = os.getenv("TAVILY_API_KEY", "")
+    # Brave Search 설정
+    BRAVE_API_KEY: str = os.getenv("BRAVE_API_KEY", "")
+    BRAVE_SEARCH_COUNT: int = int(os.getenv("BRAVE_SEARCH_COUNT", "10"))
 
     # Google Gemini / Imagen 설정
     GEMINI_API_KEY: str = os.getenv("GEMINI_API_KEY", "")
@@ -31,8 +32,8 @@ class Config:
 
         if not cls.ANTHROPIC_API_KEY:
             missing.append("ANTHROPIC_API_KEY")
-        if not cls.TAVILY_API_KEY:
-            missing.append("TAVILY_API_KEY")
+        if not cls.BRAVE_API_KEY:
+            missing.append("BRAVE_API_KEY")
         if not cls.GEMINI_API_KEY:
             missing.append("GEMINI_API_KEY")
 

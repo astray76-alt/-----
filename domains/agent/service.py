@@ -40,7 +40,7 @@ class AgentService:
 
         # 2단계: GPT-5.4로 슬라이드 콘텐츠 생성
         print("\n[2/4] 콘텐츠 생성 중... (GPT-5.4)")
-        slides_content = self._content.generate_all_slides(research_results)
+        slides_content = self._content.generate_all_slides(product_name, research_results)
 
         # 3단계: Gemini 2.5 Pro + Imagen 3으로 슬라이드 이미지 생성
         print("\n[3/4] 디자인 및 이미지 생성 중... (Gemini 2.5 Pro + Imagen 3)")
@@ -48,7 +48,7 @@ class AgentService:
         for slide in slides_content:
             design_result = self._designer.design_slide(
                 slide_title=slide["title"],
-                slide_content=slide["body"],
+                slide_body=slide["body"],
             )
             # 콘텐츠와 디자인 결과 병합
             slides_data.append({

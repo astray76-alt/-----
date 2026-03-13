@@ -15,8 +15,14 @@ class Config:
     # Tavily 웹서치 설정
     TAVILY_API_KEY: str = os.getenv("TAVILY_API_KEY", "")
 
+    # Google Gemini / Imagen 설정
+    GEMINI_API_KEY: str = os.getenv("GEMINI_API_KEY", "")
+    GEMINI_MODEL: str = os.getenv("GEMINI_MODEL", "gemini-2.5-pro")
+    IMAGEN_MODEL: str = os.getenv("IMAGEN_MODEL", "imagen-3.0-generate-001")
+
     # 출력 경로 설정
     OUTPUT_DIR: str = os.getenv("OUTPUT_DIR", "output")
+    IMAGE_OUTPUT_DIR: str = os.getenv("IMAGE_OUTPUT_DIR", "output/images")
 
     @classmethod
     def validate(cls) -> None:
@@ -27,6 +33,8 @@ class Config:
             missing.append("ANTHROPIC_API_KEY")
         if not cls.TAVILY_API_KEY:
             missing.append("TAVILY_API_KEY")
+        if not cls.GEMINI_API_KEY:
+            missing.append("GEMINI_API_KEY")
 
         if missing:
             raise EnvironmentError(

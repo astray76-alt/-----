@@ -1,4 +1,4 @@
-import google.generativeai as genai
+from google import genai
 from shared.config import Config
 
 
@@ -6,8 +6,7 @@ class ImagePromptSkill:
     """Gemini 2.5 Pro로 Imagen용 이미지 프롬프트 생성 스킬"""
 
     def __init__(self):
-        genai.configure(api_key=Config.GEMINI_API_KEY)
-        self._model = genai.GenerativeModel(Config.GEMINI_MODEL)
+        self._client = genai.Client(api_key=Config.GEMINI_API_KEY)
 
     def execute(self, slide_title: str, design_plan: str) -> str:
         """
@@ -33,5 +32,8 @@ class ImagePromptSkill:
 - B2B 비즈니스 톤 유지
 - 프롬프트 텍스트만 출력 (설명 없이)
 """
-        response = self._model.generate_content(prompt)
+        response = self._client.models.generate_content(
+            model=Config.GEMINI_MODEL,
+            contents=prompt,
+        )
         return response.text.strip()

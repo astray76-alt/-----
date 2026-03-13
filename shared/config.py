@@ -19,7 +19,7 @@ class Config:
     # Google Gemini / Imagen 설정
     GEMINI_API_KEY: str = os.getenv("GEMINI_API_KEY", "")
     GEMINI_MODEL: str = os.getenv("GEMINI_MODEL", "gemini-2.5-pro")
-    IMAGEN_MODEL: str = os.getenv("IMAGEN_MODEL", "imagen-3.0-generate-001")
+    IMAGEN_MODEL: str = os.getenv("IMAGEN_MODEL", "gemini-2.0-flash-exp-image-generation")
 
     # 출력 경로 설정
     OUTPUT_DIR: str = os.getenv("OUTPUT_DIR", "output")

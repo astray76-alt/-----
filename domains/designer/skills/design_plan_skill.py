@@ -1,4 +1,4 @@
-import google.generativeai as genai
+from google import genai
 from shared.config import Config
 
 
@@ -6,8 +6,7 @@ class DesignPlanSkill:
     """Gemini 2.5 Pro로 슬라이드 디자인 방향 기획 스킬"""
 
     def __init__(self):
-        genai.configure(api_key=Config.GEMINI_API_KEY)
-        self._model = genai.GenerativeModel(Config.GEMINI_MODEL)
+        self._client = genai.Client(api_key=Config.GEMINI_API_KEY)
 
     def execute(self, slide_title: str, slide_body: str) -> str:
         """
@@ -31,5 +30,8 @@ B2B 상품소개서 슬라이드 디자인을 기획해주세요.
 - 색상 테마: (주조색, 보조색, 분위기)
 - 이미지 컨셉: (어떤 시각 이미지가 이 슬라이드에 적합한지)
 """
-        response = self._model.generate_content(prompt)
+        response = self._client.models.generate_content(
+            model=Config.GEMINI_MODEL,
+            contents=prompt,
+        )
         return response.text.strip()

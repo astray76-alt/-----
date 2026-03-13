@@ -1,14 +1,15 @@
 import os
-import google.generativeai as genai
+import base64
+from google import genai
+from google.genai import types
 from shared.config import Config
 
 
 class ImageGenerationSkill:
-    """Imagen 3으로 실제 이미지 파일 생성 스킬"""
+    """Gemini 2.0 Flash로 이미지 파일 생성 스킬 (Google AI Studio 호환)"""
 
     def __init__(self):
-        genai.configure(api_key=Config.GEMINI_API_KEY)
-        self._model = genai.ImageGenerationModel(Config.IMAGEN_MODEL)
+        self._client = genai.Client(api_key=Config.GEMINI_API_KEY)
         os.makedirs(Config.IMAGE_OUTPUT_DIR, exist_ok=True)
 
     def execute(self, slide_title: str, imagen_prompt: str) -> str:
@@ -22,14 +23,23 @@ class ImageGenerationSkill:
         Returns:
             저장된 이미지 파일 경로
         """
-        result = self._model.generate_images(
-            prompt=imagen_prompt,
-            number_of_images=1,
-            aspect_ratio="16:9",
+        response = self._client.models.generate_content(
+            model=Config.IMAGEN_MODEL,
+            contents=imagen_prompt,
+            config=types.GenerateContentConfig(
+                response_modalities=["IMAGE"],
+            ),
         )
 
+        # 응답에서 이미지 데이터 추출 후 저장
         safe_title = slide_title.replace(" ", "_").replace("/", "-")
         image_path = os.path.join(Config.IMAGE_OUTPUT_DIR, f"{safe_title}.png")
-        result.images[0].save(image_path)
+
+        for part in response.candidates[0].content.parts:
+            if part.inline_data is not None:
+                image_bytes = base64.b64decode(part.inline_data.data)
+                with open(image_path, "wb") as f:
+                    f.write(image_bytes)
+                break
 
         return image_path

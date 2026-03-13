@@ -1,4 +1,4 @@
-import sys
+from shared.input_handler import InputHandler
 from domains.agent.service import AgentService
 
 
@@ -7,15 +7,19 @@ class Main:
 
     @classmethod
     def run(cls) -> None:
-        """상품명을 인자로 받아 에이전트 실행"""
-        if len(sys.argv) < 2:
-            print("사용법: python main.py <상품명>")
-            print("예시:  python main.py 'Slack'")
-            sys.exit(1)
+        """입력값 로드 후 에이전트 실행"""
+        # 입력값 로드 (input.json 또는 대화형)
+        handler = InputHandler()
+        inputs = handler.load()
 
-        product_name = sys.argv[1]
+        # 에이전트 실행
         agent = AgentService()
-        agent.run(product_name)
+        agent.run(
+            product_name=inputs["product_name"],
+            outline=inputs["outline"],
+            content_direction=inputs["content_direction"],
+            reference_texts=inputs["reference_texts"],
+        )
 
 
 if __name__ == "__main__":

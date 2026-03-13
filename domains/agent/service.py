@@ -22,12 +22,21 @@ class AgentService:
         self._designer = DesignerService()
         self._presentation = PresentationService()
 
-    def run(self, product_name: str) -> str:
+    def run(
+        self,
+        product_name: str,
+        outline: list[str] = None,
+        content_direction: str = "",
+        reference_texts: str = "",
+    ) -> str:
         """
-        상품명을 입력받아 상품소개서 PPT를 자동 생성
+        상품명과 옵션 입력값을 받아 상품소개서 PPT 자동 생성
 
         Args:
             product_name: 소개서를 만들 상품명
+            outline: 사용자 지정 목차 (없으면 AI 자동 생성)
+            content_direction: 콘텐츠 작성 방향 지시문
+            reference_texts: 레퍼런스에서 추출한 텍스트
 
         Returns:
             생성된 PPT 파일 경로
@@ -40,7 +49,13 @@ class AgentService:
 
         # 2단계: GPT-5.4로 슬라이드 콘텐츠 생성
         print("\n[2/4] 콘텐츠 생성 중... (GPT-5.4)")
-        slides_content = self._content.generate_all_slides(product_name, research_results)
+        slides_content = self._content.generate_all_slides(
+            product_name=product_name,
+            research_results=research_results,
+            outline=outline,
+            content_direction=content_direction,
+            reference_texts=reference_texts,
+        )
 
         # 3단계: Gemini 2.5 Pro + Imagen 3으로 슬라이드 이미지 생성
         print("\n[3/4] 디자인 및 이미지 생성 중... (Gemini 2.5 Pro + Imagen 3)")

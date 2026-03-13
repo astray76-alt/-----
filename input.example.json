@@ -1,0 +1,19 @@
+{
+  "product_name": "Slack",
+
+  "outline": [
+    "회사 및 제품 소개",
+    "핵심 기능 및 특장점",
+    "B2B 도입 효과 및 사례",
+    "경쟁사 대비 차별점",
+    "요금제 및 도입 절차"
+  ],
+
+  "content_direction": "엔터프라이즈 IT 구매 담당자를 대상으로 작성. 생산성 향상과 비용 절감 효과를 강조할 것.",
+
+  "references": [
+    "references/product_spec.pdf",
+    "references/case_study.txt",
+    "https://example.com"
+  ]
+}

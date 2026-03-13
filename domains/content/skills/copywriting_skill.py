@@ -8,20 +8,23 @@ class CopywritingSkill:
     def __init__(self):
         self._client = OpenAI(api_key=Config.OPENAI_API_KEY)
 
-    def execute(self, slide_title: str, research_summary: str) -> str:
+    def execute(self, slide_title: str, research_summary: str, content_direction: str = "") -> str:
         """
         슬라이드 제목에 맞는 본문 불릿 포인트 생성
 
         Args:
             slide_title: 슬라이드 제목
             research_summary: 해당 슬라이드 관련 리서치 요약
+            content_direction: 사용자가 지정한 콘텐츠 작성 방향
 
         Returns:
             불릿 포인트 본문 텍스트
         """
+        direction_block = f"\n작성 방향:\n{content_direction}\n" if content_direction else ""
+
         prompt = f"""
 B2B 상품소개서의 '{slide_title}' 슬라이드 본문을 작성해주세요.
-
+{direction_block}
 참고 자료:
 {research_summary}
 

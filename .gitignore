@@ -15,6 +15,10 @@ env/
 # 생성된 출력물
 output/
 
+# 사용자 입력 파일 (개인정보/내부자료 포함 가능)
+input.json
+references/
+
 # IDE
 .vscode/
 .idea/

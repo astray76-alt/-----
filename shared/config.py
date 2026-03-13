@@ -1,0 +1,35 @@
+import os
+from dotenv import load_dotenv
+
+# .env 파일 로드
+load_dotenv()
+
+
+class Config:
+    """프로젝트 전역 설정 관리 클래스"""
+
+    # Claude API 설정
+    ANTHROPIC_API_KEY: str = os.getenv("ANTHROPIC_API_KEY", "")
+    CLAUDE_MODEL: str = os.getenv("CLAUDE_MODEL", "claude-opus-4-6")
+
+    # Tavily 웹서치 설정
+    TAVILY_API_KEY: str = os.getenv("TAVILY_API_KEY", "")
+
+    # 출력 경로 설정
+    OUTPUT_DIR: str = os.getenv("OUTPUT_DIR", "output")
+
+    @classmethod
+    def validate(cls) -> None:
+        """필수 환경변수 검증"""
+        missing = []
+
+        if not cls.ANTHROPIC_API_KEY:
+            missing.append("ANTHROPIC_API_KEY")
+        if not cls.TAVILY_API_KEY:
+            missing.append("TAVILY_API_KEY")
+
+        if missing:
+            raise EnvironmentError(
+                f"필수 환경변수가 설정되지 않았습니다: {', '.join(missing)}\n"
+                f".env.example을 참고하여 .env 파일을 생성해주세요."
+            )
